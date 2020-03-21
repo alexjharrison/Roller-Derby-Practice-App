@@ -1,51 +1,29 @@
 <template>
-  <div v-if="!hasStarted">
-    <h1>Ally's Derby Workout App</h1>
-    <form id="start" @submit.prevent @submit="hasStarted = true">
-      <label for="length">Set Session Length (minutes)</label>
-      <input id="length" type="number" v-model.number="totalSessionLength" />
-      <button @click="speak(`ally in the sky with diamonds`)" type="submit">
-        Start!
-      </button>
-    </form>
-  </div>
-  <div v-else>
-    else
-    <audio ref="whistle" id="whistle" src="/audio/beep.wav" />
+  <div>
+    <button @click="nextCategory">increment</button>
+    <start v-if="!totalSessionLength"></start>
+    <stationary v-if="categoryNum === 0" />
+    <whistle v-if="categoryNum === 1" />
+    <continuous v-if="categoryNum === 2" />
   </div>
 </template>
 
 <script>
-// import { continuous, onWhistle, stationary } from "./exercises";
+import Start from "@/screens/Start";
+import Stationary from "@/screens/Stationary";
+import Whistle from "@/screens/Whistle";
+import Continuous from "@/screens/Continuous";
 export default {
-  name: "App",
+  components: { Start, Stationary, Whistle, Continuous },
   data() {
     return {
-      hasStarted: false,
-      totalSessionLength: 30,
-      synth: window.speechSynthesis,
-      isSpeaking: false
+      totalSessionLength: null,
+      categoryNum: 0
     };
   },
-  watch: {
-    isSpeaking(newValue) {
-      if (newValue === false) {
-        this.$refs.whistle.play();
-      }
-    }
-  },
   methods: {
-    speak(sentence) {
-      const utterance = new SpeechSynthesisUtterance(sentence);
-      this.synth.speak(utterance);
-      this.isSpeaking = true;
-      const interval = setInterval(() => {
-        console.log("going");
-        if (!this.synth.speaking) {
-          this.isSpeaking = false;
-          clearInterval(interval);
-        }
-      }, 500);
+    nextCategory() {
+      this.categoryNum = this.categoryNum === 2 ? 0 : this.categoryNum + 1;
     }
   }
 };
