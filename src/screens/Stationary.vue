@@ -27,7 +27,6 @@ export default {
       if (this.count === 0) {
         clearInterval(interval);
         await this.$play("beep.wav");
-        await this.$wait(5000);
         this.$emit("next");
       }
     }, 1000);
