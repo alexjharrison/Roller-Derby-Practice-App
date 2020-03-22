@@ -1,17 +1,17 @@
 export default [
   {
     name: "Jumping",
-    interval: 15,
+    interval: 10,
     repetitions: 8
   },
   {
     name: "Plow Stops",
-    interval: 15,
+    interval: 10,
     repetitions: 8
   },
   {
     name: "T Stops",
-    interval: 15,
+    interval: 10,
     repetitions: 8
   },
   {
@@ -21,7 +21,7 @@ export default [
   },
   {
     name: "Hockey Stops",
-    interval: 15,
+    interval: 10,
     repetitions: 8
   }
 ];
