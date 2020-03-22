@@ -5,7 +5,7 @@ export default [
       duration: 120
     },
     {
-      name: "Other Way",
+      name: "The Other Way",
       duration: 120
     }
   ],
@@ -15,7 +15,7 @@ export default [
       duration: 120
     },
     {
-      name: "Other Way",
+      name: "The Other Way",
       duration: 120
     }
   ],

@@ -1,10 +1,36 @@
 <template>
   <div>
-    <button @click="nextCategory">increment</button>
-    <start v-if="!totalSessionLength"></start>
-    <stationary v-if="categoryNum === 0" />
-    <whistle v-if="categoryNum === 1" />
-    <continuous v-if="categoryNum === 2" />
+    <progress :value="currentExerciseIndex" :max="routine && routine.length" />
+    <start v-if="status === 'notStarted'" @updateTime="generate($event)" />
+    <continuous
+      v-else-if="
+        status === 'exercising' && currentExercise.category === 'continuous'
+      "
+      @next="currentExerciseIndex++"
+      :exercise="currentExercise.exercise"
+    />
+    <stationary
+      v-else-if="
+        status === 'exercising' && currentExercise.category === 'stationary'
+      "
+      @next="currentExerciseIndex++"
+      :exercise="currentExercise.exercise"
+    />
+    <whistle
+      v-else-if="
+        status === 'exercising' && currentExercise.category === 'onWhistle'
+      "
+      @next="currentExerciseIndex++"
+      :exercise="currentExercise.exercise"
+    />
+    <finished
+      v-if="status === 'done'"
+      @start-over="
+        routine = null;
+        currentExerciseIndex = 0;
+      "
+    />
+    <button class="skip-btn" @click="currentExerciseIndex++">Skip</button>
   </div>
 </template>
 
@@ -13,17 +39,30 @@ import Start from "@/screens/Start";
 import Stationary from "@/screens/Stationary";
 import Whistle from "@/screens/Whistle";
 import Continuous from "@/screens/Continuous";
+import Finished from "@/screens/Finished";
+import generateRoutine from "@/functions/generateRoutine";
 export default {
-  components: { Start, Stationary, Whistle, Continuous },
+  components: { Start, Stationary, Whistle, Continuous, Finished },
   data() {
     return {
-      totalSessionLength: null,
-      categoryNum: 0
+      currentExerciseIndex: 0,
+      routine: null
     };
   },
+  computed: {
+    currentExercise() {
+      if (!this.routine) return null;
+      return this.routine[this.currentExerciseIndex];
+    },
+    status() {
+      if (!this.routine) return "notStarted";
+      else if (this.currentExercise) return "exercising";
+      else return "done";
+    }
+  },
   methods: {
-    nextCategory() {
-      this.categoryNum = this.categoryNum === 2 ? 0 : this.categoryNum + 1;
+    generate(length) {
+      this.routine = generateRoutine(length);
     }
   }
 };
@@ -36,18 +75,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 0;
 }
-</style>
-
-<style scoped>
-#start {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.timer {
+  font-size: 80px;
 }
-input {
-  margin-bottom: 1rem;
+progress {
+  width: 100%;
+  margin-bottom: 40px;
+}
+.skip-btn {
+  margin-top: 50px;
 }
 </style>
