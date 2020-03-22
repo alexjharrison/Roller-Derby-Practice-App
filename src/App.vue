@@ -30,7 +30,6 @@
         currentExerciseIndex = 0;
       "
     />
-    <button class="skip-btn" @click="currentExerciseIndex++">Skip</button>
   </div>
 </template>
 

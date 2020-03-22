@@ -25,9 +25,10 @@ export default {
     const interval = setInterval(async () => {
       this.count--;
       if (this.count === -1 && this.repsLeft > 0) {
-        this.$play("beep.wav");
         this.count = this.exercise.interval;
         this.repsLeft--;
+        await this.$play("bleep.wav");
+        await this.$speak(`${this.repsLeft} reps remaining`);
       } else if (this.count === -1 && this.repsLeft === 0) {
         this.count = 0;
         clearInterval(interval);
