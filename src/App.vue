@@ -40,12 +40,14 @@ import Whistle from "@/screens/Whistle";
 import Continuous from "@/screens/Continuous";
 import Finished from "@/screens/Finished";
 import generateRoutine from "@/functions/generateRoutine";
+import NoSleep from "nosleep.js";
 export default {
   components: { Start, Stationary, Whistle, Continuous, Finished },
   data() {
     return {
       currentExerciseIndex: 0,
-      routine: null
+      routine: null,
+      noSleep: new NoSleep()
     };
   },
   computed: {
@@ -62,6 +64,7 @@ export default {
   methods: {
     generate(length) {
       this.routine = generateRoutine(length);
+      this.noSleep.enable();
     }
   }
 };
