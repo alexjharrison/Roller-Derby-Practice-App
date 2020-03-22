@@ -16,7 +16,7 @@ export default [
   },
   {
     name: "Lane Changes",
-    interval: 10,
+    interval: 5,
     repetitions: 12
   },
   {
