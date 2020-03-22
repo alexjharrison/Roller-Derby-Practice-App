@@ -24,6 +24,9 @@ export default {
     await this.$play("beep.wav");
     const interval = setInterval(async () => {
       this.count--;
+      if (this.count === Math.floor(this.exercise.duration / 2)) {
+        this.$speak("Half the time has elapsed");
+      }
       if (this.count === 0) {
         clearInterval(interval);
         await this.$play("beep.wav");

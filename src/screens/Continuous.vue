@@ -12,13 +12,15 @@ export default {
   data() {
     return {
       name: this.exercise[0].name,
-      count: this.exercise[0].duration
+      count: this.exercise[0].duration,
+      halfTime: Math.floor(this.exercise[0].duration / 2)
     };
   },
   async mounted() {
     for (let i = 0; i < this.exercise.length; i++) {
       this.name = this.exercise[i].name;
       this.count = this.exercise[i].duration;
+      this.halfTime = Math.floor(this.exercise[i].duration / 2);
       await this.doExercise();
     }
     this.$emit("next");
@@ -33,6 +35,9 @@ export default {
       return new Promise(resolve => {
         const interval = setInterval(async () => {
           this.count--;
+          if (this.count === this.halfTime) {
+            this.$speak("Half the time has elapsed");
+          }
           if (this.count === 0) {
             clearInterval(interval);
             await this.$play("beep.wav");
