@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "core-js": "3.6.4",
-    "nosleep.js": "0.9.0",
+    "nosleep.js": "0.12.0",
     "vue": "2.6.11",
     "vuex": "3.1.3"
   },
